@@ -67,3 +67,36 @@ npm run start
 
 If you deploy on server, you can also see on the browser
 ![Alt text](pics/07_access-app.png)
+
+
+# Part 4: Deploy Frontend to S3 Bucket
+**Step 1:** First, create an S3 bucket with a unique name. Here we have created terraform code to run an S3 static website. What you need to do is create a *terraform.tfvars* file in the **/terraform/environment/01_prod** directory
+```terraform.tfvars
+account_id  = "<YOUR-AWS-ACCOUNT-ID>"
+aws_profile = "<YOUR-AWS-CLI-PROFILE>"
+environment = "<ARBITARY-ENVIRONMENT>"
+
+s3_bucket_details = {
+  "trivia-app" = {
+    bucket_name = "<YOUR-UNIQUE-BUCKET-NAME>"
+    source_ip   = "<YOUR-PUBLIC-IP-ADDRESS>"
+  }
+}
+```
+
+**Step 2:** Run these terraform command, to provision AWS resources (Make sure, you are in **/terraform/environment/01_prod** directory)
+```shell
+terraform init
+terraform apply
+```
+
+**Step 3:** After that, carry out the build process for the Trivia App by running the following command
+```
+npm run build
+```
+
+**Note:** After the build process, a folder called **build** appears which contains all the resources that have been optimized and can be deployed.
+
+**Step 4:** After the build process is complete, now is the time for us to deploy the frontend to the S3 bucket. The deploy process is actually copying all the contents of the build folder to the S3 bucket that we just created.
+![Alt text](pics/08_build-frontend-artifact.png)
+
