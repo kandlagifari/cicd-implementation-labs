@@ -1,4 +1,4 @@
-**NOTE:** Currently API Gateway Web Socket is not supported in Jakarta Region, please use N. Virginia Region
+**NOTE:** Currently API Gateway Web Socket is not supported in Jakarta Region, Please use N. Virginia Region
 
 
 # Part 1: Install SAM CLI
