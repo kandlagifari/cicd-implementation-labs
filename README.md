@@ -1,1 +1,1 @@
-# cicd-implementation-labs
+# Trivia Applications
