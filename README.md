@@ -97,6 +97,13 @@ npm run build
 
 **Note:** After the build process, a folder called **build** appears which contains all the resources that have been optimized and can be deployed.
 
-**Step 4:** After the build process is complete, now is the time for us to deploy the frontend to the S3 bucket. The deploy process is actually copying all the contents of the build folder to the S3 bucket that we just created.
 ![Alt text](pics/08_build-frontend-artifact.png)
 
+**Step 4:** After the build process is complete, now is the time for us to deploy the frontend to the S3 bucket. The deploy process is actually copying all the contents of the build folder to the S3 bucket that we just created.
+
+![Alt text](pics/09_copy-to-s3.png)
+
+
+Great, the frontend has been successfully *deployed*. You can access the Trivia App application via the following URL: **https://{{YOUR-BUCKET-NAME}}/index.html**
+
+![Alt text](pics/10_s3-static-website.png)
