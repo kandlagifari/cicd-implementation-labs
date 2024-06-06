@@ -33,6 +33,9 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Terraform Lock HCL
+.terraform.lock.hcl
+
 # AWS SAM
 .aws-sam
 
