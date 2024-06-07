@@ -70,3 +70,18 @@ variable "cloudwatch_log_group" {
 variable "personal_access_token" {
   type = string
 }
+
+
+/* -------------------------------------- CodePipeline Role ------------------------------------- */
+
+variable "codepipeline_execution_role" {
+  type = map(object({
+    role_name = string
+  }))
+}
+
+variable "codepipeline_execution_policy" {
+  type = map(object({
+    policy_name = string
+  }))
+}

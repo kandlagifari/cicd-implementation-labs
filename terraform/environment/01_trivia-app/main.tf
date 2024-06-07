@@ -73,3 +73,17 @@ module "codebuild_project" {
     }
   }
 }
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/*                                               IAM Role for CodePipeline                                            */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+module "codepipeline_role" {
+  source                        = "../../modules/iam/codepipeline-role"
+  codepipeline_execution_role   = var.codepipeline_execution_role
+  codepipeline_execution_policy = var.codepipeline_execution_policy
+  account_id                    = data.aws_caller_identity.current.account_id
+  # region                     = data.aws_region.current.name
+}
