@@ -36,7 +36,6 @@ variable "apps_name" {
 variable "s3_bucket_details" {
   type = map(object({
     bucket_name = string
-    source_ip   = string
   }))
 }
 
@@ -51,7 +50,7 @@ variable "codebuild_execution_role" {
 
 variable "codebuild_execution_policy" {
   type = map(object({
-    policy_name          = string
+    policy_name = string
   }))
 }
 
@@ -62,4 +61,11 @@ variable "cloudwatch_log_group" {
   type = map(object({
     cw_log_name = string
   }))
+}
+
+
+/* ------------------------------------- CodeBuild Project -------------------------------------- */
+
+variable "personal_access_token" {
+  type = string
 }
