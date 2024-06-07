@@ -43,10 +43,10 @@ resource "aws_codebuild_project" "this" {
   }
 
   source {
-    type            = each.value["codebuild_source_provider"] # "GITHUB"
-    location        = each.value["codebuild_source_location"] # "https://github.com/kandlagifari/cicd-implementation-labs.git"
+    type            = each.value["codebuild_source_provider"]  # "GITHUB"
+    location        = each.value["codebuild_source_location"]  # "https://github.com/kandlagifari/cicd-implementation-labs.git"
+    buildspec       = each.value["codebuild_source_buildspec"] # "buildspec.yml"
     git_clone_depth = 1
-    buildspec       = "buildspec.yml"
 
     git_submodules_config {
       fetch_submodules = false

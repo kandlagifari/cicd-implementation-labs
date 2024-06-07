@@ -66,9 +66,10 @@ module "codebuild_project" {
       codebuild_cw_log_name = "/aws/codebuild/hello-app-codebuild-project"
 
       # CodeBuild Source
-      codebuild_source_provider = "GITHUB"
-      codebuild_source_location = "https://github.com/kandlagifari/cicd-implementation-labs.git"
-      codebuild_source_branch   = "hello-world"
+      codebuild_source_provider  = "GITHUB"
+      codebuild_source_location  = "https://github.com/kandlagifari/cicd-implementation-labs.git"
+      codebuild_source_branch    = "hello-world"
+      codebuild_source_buildspec = "buildspec.yml"
     }
   }
 }
