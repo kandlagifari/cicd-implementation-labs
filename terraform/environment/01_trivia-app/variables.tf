@@ -31,11 +31,42 @@ variable "apps_name" {
 }
 
 
-/* ----------------------------------------- S3 Bucket --------------------------------------- */
+/* ------------------------------------------ S3 Bucket ----------------------------------------- */
 
 variable "s3_bucket_details" {
   type = map(object({
     bucket_name = string
     source_ip   = string
   }))
+}
+
+
+/* --------------------------------------- CodeBuild Role --------------------------------------- */
+
+variable "codebuild_execution_role" {
+  type = map(object({
+    role_name = string
+  }))
+}
+
+variable "codebuild_execution_policy" {
+  type = map(object({
+    policy_name = string
+  }))
+}
+
+
+/* ------------------------------------ CW Log for CodeBuild ------------------------------------ */
+
+variable "cloudwatch_log_group" {
+  type = map(object({
+    cw_log_name = string
+  }))
+}
+
+
+/* ------------------------------------- CodeBuild Project -------------------------------------- */
+
+variable "personal_access_token" {
+  type = string
 }
