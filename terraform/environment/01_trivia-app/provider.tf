@@ -28,7 +28,7 @@ provider "aws" {
   profile             = var.aws_profile
   default_tags {
     tags = {
-      Environment = "prod"
+      Environment = "trivia-app"
       Project     = "cicd"
     }
   }
