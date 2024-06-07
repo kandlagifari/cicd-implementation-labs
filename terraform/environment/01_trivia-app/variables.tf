@@ -36,7 +36,7 @@ variable "apps_name" {
 variable "s3_bucket_details" {
   type = map(object({
     bucket_name = string
-    source_ip   = string
+    # source_ip   = string
   }))
 }
 
