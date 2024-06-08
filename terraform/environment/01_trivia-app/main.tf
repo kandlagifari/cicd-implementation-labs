@@ -111,7 +111,7 @@ module "codepipeline_project" {
   codepipeline_project_details = {
     "trivia-app" = {
       codepipeline_name = "trivia-app-pipeline-project"
-      codepipeline_role = "arn:aws:iam::981500400088:role/service-role/AWSCodePipelineServiceRole-us-east-1-trivia-app-pipeline-project"
+      codepipeline_role = module.codepipeline_role.codepipeline_execution_role_arn["trivia-app"]
 
       codepipeline_action_1_name                   = "Source-Stage"
       codepipeline_action_1_namespace              = "SourceVariables"
