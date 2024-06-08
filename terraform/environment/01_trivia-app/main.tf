@@ -31,7 +31,7 @@ module "codebuild_role" {
   codebuild_execution_policy = var.codebuild_execution_policy
   account_id                 = data.aws_caller_identity.current.account_id
   region                     = data.aws_region.current.name
-  codebuild_s3_artifact_name = module.s3_artifact.bucket_name["trivia-app"]
+  codebuild_s3_artifact_name = module.s3_artifact.bucket_name["trivia-app-codebuild"]
 }
 
 
@@ -56,7 +56,7 @@ module "codebuild_project" {
       codebuild_role        = module.codebuild_role.codebuild_execution_role_arn["trivia-app"]
 
       # CodeBuild Output Artifacts
-      codebuild_bucket_artifacts_name = module.s3_artifact.bucket_name["trivia-app"]
+      codebuild_bucket_artifacts_name = module.s3_artifact.bucket_name["trivia-app-codebuild"]
 
       # CodeBuild Container Runtime
       codebuild_environment_compute_type = "BUILD_GENERAL1_SMALL"
