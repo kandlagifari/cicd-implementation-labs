@@ -10,6 +10,10 @@ variable "account_id" {
 
 }
 
-# variable "region" {
+variable "region" {
 
-# }
+}
+
+variable "codebuild_s3_artifact_name" {
+
+}

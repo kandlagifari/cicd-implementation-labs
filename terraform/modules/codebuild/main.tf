@@ -69,3 +69,26 @@ resource "aws_codebuild_project" "this" {
   #   ]
   # }
 }
+
+resource "aws_codebuild_report_group" "this" {
+  for_each       = var.codebuild_report_group_details
+  name           = each.value["codebuild_report_group_name"]
+  type           = each.value["codebuild_report_group_type"]
+  delete_reports = true # Default is false
+
+  export_config {
+    type = "NO_EXPORT"
+  }
+
+  # export_config {
+  #   type = "S3"
+
+  #   s3_destination {
+  #     bucket              = aws_s3_bucket.example.id
+  #     encryption_disabled = false
+  #     encryption_key      = aws_kms_key.example.arn
+  #     packaging           = "NONE"
+  #     path                = "/some"
+  #   }
+  # }
+}

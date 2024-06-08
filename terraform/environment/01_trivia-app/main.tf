@@ -30,7 +30,8 @@ module "codebuild_role" {
   codebuild_execution_role   = var.codebuild_execution_role
   codebuild_execution_policy = var.codebuild_execution_policy
   account_id                 = data.aws_caller_identity.current.account_id
-  # region                     = data.aws_region.current.name
+  region                     = data.aws_region.current.name
+  codebuild_s3_artifact_name = module.s3_artifact.bucket_name["trivia-app"]
 }
 
 
@@ -72,6 +73,8 @@ module "codebuild_project" {
       codebuild_source_buildspec = "buildspecs/unittests.yaml"
     }
   }
+
+  codebuild_report_group_details = var.codebuild_report_group_details
 }
 
 
@@ -95,11 +98,43 @@ module "codepipeline_role" {
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 module "codepipeline_project" {
-  source = "../../modules/codepipeline"
+  source     = "../../modules/codepipeline"
+  depends_on = [module.codebuild_project]
 
-  # Github Connection
-  connection_name     = "trivia-app-github-connection"
-  connection_provider = "GitHub"
+  # # Github Connection (Remove from tfstate, so we don't need configure GitHub Apps again)
+  # connection_name     = "trivia-app-github-connection"
+  # connection_provider = "GitHub"
 
+  codepipeline_s3_bucket_artifact = module.s3_artifact.bucket_name["trivia-app-codepipeline"]
+  # codepipeline_s3_kms_artifact =  data.aws_kms_alias.s3kmskey.arn
 
+  codepipeline_project_details = {
+    "trivia-app" = {
+      codepipeline_name = "trivia-app-pipeline-project"
+      codepipeline_role = "arn:aws:iam::981500400088:role/service-role/AWSCodePipelineServiceRole-us-east-1-trivia-app-pipeline-project"
+
+      codepipeline_action_1_name                   = "Source-Stage"
+      codepipeline_action_1_namespace              = "SourceVariables"
+      codepipeline_action_1_category               = "Source"
+      codepipeline_action_1_owner                  = "AWS"
+      codepipeline_action_1_provider               = "CodeStarSourceConnection"
+      codepipeline_action_1_version                = "1"
+      codepipeline_action_1_output_artifacts       = ["SourceArtifact"]
+      codepipeline_action_1_connection_arn         = data.aws_codestarconnections_connection.github.id
+      codepipeline_action_1_full_repository_id     = "kandlagifari/cicd-implementation-labs"
+      codepipeline_action_1_branch_name            = "trivia-app"
+      codepipeline_action_1_detect_changes         = true
+      codepipeline_action_1_output_artifact_format = "CODE_ZIP"
+
+      codepipeline_action_2_name             = "Build-Stage"
+      codepipeline_action_2_namespace        = "BuildVariables"
+      codepipeline_action_2_category         = "Build"
+      codepipeline_action_2_owner            = "AWS"
+      codepipeline_action_2_provider         = "CodeBuild"
+      codepipeline_action_2_version          = "1"
+      codepipeline_action_2_input_artifacts  = ["SourceArtifact"]
+      codepipeline_action_2_output_artifacts = ["BuildArtifact"]
+      codepipeline_action_2_project_name     = "trivia-app-unittests-codebuild-project"
+    }
+  }
 }

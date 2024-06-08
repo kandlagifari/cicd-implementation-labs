@@ -51,7 +51,8 @@ variable "codebuild_execution_role" {
 
 variable "codebuild_execution_policy" {
   type = map(object({
-    policy_name = string
+    policy_name            = string
+    codebuild_project_name = string
   }))
 }
 
@@ -69,6 +70,13 @@ variable "cloudwatch_log_group" {
 
 variable "personal_access_token" {
   type = string
+}
+
+variable "codebuild_report_group_details" {
+  type = map(object({
+    codebuild_report_group_name = string
+    codebuild_report_group_type = string
+  }))
 }
 
 

@@ -43,7 +43,10 @@ resource "aws_iam_policy" "codebuild_execution_policy" {
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${each.value["codebuild_project_name"]}",
+        "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${each.value["codebuild_project_name"]}:*"
+      ]
     },
     {
       "Sid": "CodeCommitPolicy",
@@ -57,37 +60,113 @@ resource "aws_iam_policy" "codebuild_execution_policy" {
       "Sid": "CodeBuildReportGroupPolicy",
       "Effect": "Allow",
       "Action": [
-        "codebuild:CreateReportGroup"
+        "codebuild:CreateReportGroup",
+        "codebuild:CreateReport",
+        "codebuild:UpdateReport",
+        "codebuild:BatchPutTestCases",
+        "codebuild:BatchPutCodeCoverages"
       ],
-      "Resource": "*"
+      "Resource": "arn:aws:codebuild:${var.region}:${var.account_id}:report-group/${each.value["codebuild_project_name"]}-*"
     },
     {
       "Sid": "S3GetObjectPolicy",
       "Effect": "Allow",
       "Action": [
+        "s3:PutObject",
         "s3:GetObject",
-        "s3:GetObjectVersion"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "S3PutObjectPolicy",
-      "Effect": "Allow",
-      "Action": [
-        "s3:PutObject"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "S3BucketIdentity",
-      "Effect": "Allow",
-      "Action": [
+        "s3:GetObjectVersion",
         "s3:GetBucketAcl",
         "s3:GetBucketLocation"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "S3PutObjectandBucketIdentityPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${var.codebuild_s3_artifact_name}",
+        "arn:aws:s3:::${var.codebuild_s3_artifact_name}/*"
+      ]
     }
   ]
 }
 EOF
 }
+
+
+# # Default Trust Policy
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Principal": {
+#           "Service": "codebuild.amazonaws.com"
+#       },
+#       "Action": "sts:AssumeRole"
+#     }
+#   ]
+# }
+
+
+# # Default CodeBuild Policy
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Resource": [
+#         "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${each.value["codebuild_project_name"]}",
+#         "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${each.value["codebuild_project_name"]}:*"
+#       ],
+#       "Action": [
+#         "logs:CreateLogGroup",
+#         "logs:CreateLogStream",
+#         "logs:PutLogEvents"
+#       ]
+#     },
+#     {
+#       "Effect": "Allow",
+#       "Resource": [
+#         "arn:aws:s3:::codepipeline-${var.region}-*"
+#       ],
+#       "Action": [
+#         "s3:PutObject",
+#         "s3:GetObject",
+#         "s3:GetObjectVersion",
+#         "s3:GetBucketAcl",
+#         "s3:GetBucketLocation"
+#       ]
+#     },
+#     {
+#       "Effect": "Allow",
+#       "Resource": [
+#         "arn:aws:s3:::${var.codebuild_s3_artifact_name}",
+#         "arn:aws:s3:::${var.codebuild_s3_artifact_name}/*"
+#       ],
+#       "Action": [
+#         "s3:PutObject",
+#         "s3:GetBucketAcl",
+#         "s3:GetBucketLocation"
+#       ]
+#     },
+#     {
+#       "Effect": "Allow",
+#       "Action": [
+#         "codebuild:CreateReportGroup",
+#         "codebuild:CreateReport",
+#         "codebuild:UpdateReport",
+#         "codebuild:BatchPutTestCases",
+#         "codebuild:BatchPutCodeCoverages"
+#       ],
+#       "Resource": [
+#         "arn:aws:codebuild:${var.region}:${var.account_id}:report-group/${each.value["codebuild_project_name"]}-*"
+#       ]
+#     }
+#   ]
+# }
