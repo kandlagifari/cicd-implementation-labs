@@ -87,3 +87,19 @@ module "codepipeline_role" {
   account_id                    = data.aws_caller_identity.current.account_id
   # region                     = data.aws_region.current.name
 }
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/*                                                 CodePipeline Project                                               */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+module "codepipeline_project" {
+  source = "../../modules/codepipeline"
+
+  # Github Connection
+  connection_name     = "trivia-app-github-connection"
+  connection_provider = "GitHub"
+
+
+}

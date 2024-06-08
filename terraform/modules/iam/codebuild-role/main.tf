@@ -54,6 +54,14 @@ resource "aws_iam_policy" "codebuild_execution_policy" {
       "Resource": "*"
     },
     {
+      "Sid": "CodeBuildReportGroupPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:CreateReportGroup"
+      ],
+      "Resource": "*"
+    },
+    {
       "Sid": "S3GetObjectPolicy",
       "Effect": "Allow",
       "Action": [
