@@ -1,7 +1,7 @@
 # cicd-implementation-labs
 
 ### (Optional) Run CFN Lint as Docker Container
-Please, refer to `https://github.com/aws-cloudformation/cfn-lint`
+Please, refer to `https://github.com/aws-cloudformation/cfn-lint` <br>
 **Step 1:** Build the Docker Image
 ```
 docker build --tag cfn-python-lint:latest .
